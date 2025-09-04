@@ -5,7 +5,7 @@ Simple STEP (.step/.stp) to STL (.stl) converter using FreeCAD's Python API.
 Two modes:
 1) Drop-folder mode (double-click friendly):
    - Place STEP files in `STEP-INPUT/` next to this script.
-   - Double‑click a wrapper like `Step2Stl.command` (see repo) or run with FreeCADCmd.
+   - Double‑click a wrapper like `step2stl.command` (see repo) or run with FreeCADCmd.
    - Outputs to `STL-OUTPUT/` and moves processed STEP files into `STEP-INPUT/_processed/`.
    - Re-runs ignore files already in `_processed/`.
 

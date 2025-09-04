@@ -1,4 +1,4 @@
-Step2STL — Drop-Folder STEP→STL Converter (FreeCAD)
+step2stl — Drop-Folder STEP→STL Converter (FreeCAD)
 
 What It Does (Simple)
 - Converts `.step/.stp` to `.stl` with good defaults.
@@ -20,8 +20,8 @@ What’s in the bundle
   - CLI mode (when given an input path):
     - `FreeCADCmd -c "...runpy... step2stl.py <input>"`
     - Accepts a file or directory and optional flags (`-q`, `-o`, etc.)
-- `Step2Stl.command` (macOS): Double‑click to run drop‑folder mode.
-- `Step2Stl.bat` (Windows): Double‑click to run drop‑folder mode.
+- `step2stl.command` (macOS): Double‑click to run drop‑folder mode.
+- `step2stl.bat` (Windows): Double‑click to run drop‑folder mode.
 
 Install FreeCAD
 - macOS (easiest)
@@ -41,16 +41,16 @@ Install FreeCAD
   - Verify: `freecadcmd --version`
 
 Quick Start (Double‑Click)
-- macOS: double‑click `Step2Stl.command` in Finder
+- macOS: double‑click `step2stl.command` in Finder
   1) If asked, allow running (Right‑click → Open the first time)
   2) Drop `.step/.stp` files into `STEP-INPUT/`
-  3) Double‑click `Step2Stl.command` again to convert
+  3) Double‑click `step2stl.command` again to convert
   4) Find `.stl` in `STL-OUTPUT/` and your original STEP in `STEP-INPUT/_processed/`
 
-- Windows: double‑click `Step2Stl.bat` in File Explorer
-  1) If a console flashes and closes, open Command Prompt and run `Step2Stl.bat` to see messages
+- Windows: double‑click `step2stl.bat` in File Explorer
+  1) If a console flashes and closes, open Command Prompt and run `step2stl.bat` to see messages
   2) Drop `.step/.stp` files into `STEP-INPUT/`
-  3) Double‑click `Step2Stl.bat` again to convert
+  3) Double‑click `step2stl.bat` again to convert
   4) Find `.stl` in `STL-OUTPUT/` and your original STEP in `STEP-INPUT/_processed/`
 
 Command Line (Optional)
@@ -86,11 +86,11 @@ Notes and tips
 - If you see the FreeCAD banner only and nothing happens when using `FreeCADCmd <script> <args>`, switch to the `-c` invocation shown above; it guarantees the script runs as `__main__`.
 
 Troubleshooting
-- macOS “App can’t be opened”: Right‑click `Step2Stl.command` → Open once. Or open the FreeCAD app once to approve it.
-- Windows console flashes and closes: open Command Prompt, `cd` to this folder, and run `Step2Stl.bat` to read any messages.
+- macOS “App can’t be opened”: Right‑click `step2stl.command` → Open once. Or open the FreeCAD app once to approve it.
+- Windows console flashes and closes: open Command Prompt, `cd` to this folder, and run `step2stl.bat` to read any messages.
 - “FreeCADCmd not found”: make sure FreeCAD is installed (see above), or edit PATH as noted for your OS.
 
 Troubleshooting
 - “FreeCADCmd not found”: ensure FreeCAD is installed and CLI is in PATH (see Install FreeCAD).
 - macOS double‑click does nothing: Right‑click → Open the first time to bypass Gatekeeper. Or run the `.command` from Terminal to see output.
-- Windows double‑click flashes and closes: Open `cmd.exe`, run `Step2Stl.bat`, and check any error messages (path to `FreeCADCmd.exe`, permissions, etc.).
+- Windows double‑click flashes and closes: Open `cmd.exe`, run `step2stl.bat`, and check any error messages (path to `FreeCADCmd.exe`, permissions, etc.).
