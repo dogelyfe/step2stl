@@ -1,1 +1,0 @@
-Cup Holder for Inovativ Cart by robthewinner on Thingiverse: https://www.thingiverse.com/thing:3834529
