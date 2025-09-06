@@ -1,107 +1,77 @@
-# step2stl — Drop-Folder STEP→STL Converter (FreeCAD)
+# step2stl — Drag-and-Drop STEP→STL Converter
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg) ![Python](https://img.shields.io/badge/python-3.6+-blue.svg) ![FreeCAD](https://img.shields.io/badge/FreeCAD-0.21%2B-orange.svg)
 
-Simple drag-and-drop STEP to STL converter with good defaults. No GUI required.
+Convert STEP files to STL with good defaults. No GUI, just drag and drop.
 
-## Installation
+## Quick Start
 
-1. **Install FreeCAD** (see platform-specific instructions below)
-2. **Download this project** or `git clone https://github.com/dogelyfe/step2stl.git`
-3. **Ready to use** - double-click the wrapper or run from command line
+1. **Clone:** `git clone https://github.com/dogelyfe/step2stl.git`
+2. **Install FreeCAD:** `brew install --cask freecad` (macOS) or download from [freecad.org](https://www.freecad.org)
+3. **Drop:** Put `.step/.stp` files in `STEP-INPUT/` folder
+4. **Run:** Double-click `step2stl.command` (macOS) or `step2stl.bat` (Windows)
 
-## What It Does (Simple)
-- Converts `.step/.stp` to `.stl` with good defaults.
-- Double‑click to run. Drop STEP files into `STEP-INPUT/`. Results land in `STL-OUTPUT/`.
-- Moves processed STEP files into `STEP-INPUT/_processed/` so re‑runs skip them.
-- Works on macOS and Windows. Linux supported via command line.
+→ STL files appear in `STL-OUTPUT/`, originals move to `STEP-INPUT/_processed/`
 
-Built‑in Defaults (Ready to Go)
-- Quality: high (good surface fidelity)
-- Orientation: assumes STEP is Y‑up and converts to Z‑up STL
-- Folders already included: `STEP-INPUT/` and `STL-OUTPUT/`
+## How It Works
 
-What’s in the bundle
-- `step2stl.py`: Core converter. Two modes:
-  - Drop‑folder (default when run without args):
-    - Reads from `STEP-INPUT/` next to the script
-    - Outputs to `STL-OUTPUT/`
-    - Moves processed files into `STEP-INPUT/_processed/`
-  - CLI mode (when given an input path):
-    - `FreeCADCmd -c "...runpy... step2stl.py <input>"`
-    - Accepts a file or directory and optional flags (`-q`, `-o`, etc.)
-- `step2stl.command` (macOS): Double‑click to run drop‑folder mode.
-- `step2stl.bat` (Windows): Double‑click to run drop‑folder mode.
+**Drop-Folder Mode:** The default workflow designed for ease of use:
+- Processes all STEP files in `STEP-INPUT/`
+- Outputs STL files to `STL-OUTPUT/` 
+- Moves processed STEP files to `STEP-INPUT/_processed/` (so reruns skip them)
+- High quality conversion with Y→Z orientation by default
 
-Install FreeCAD
-- macOS (easiest)
-  - Install: `brew install --cask freecad`
-  - One‑time approval if needed: open the app once from Applications, then quit.
-  - Optional (Terminal use): `export PATH="/Applications/FreeCAD.app/Contents/Resources/bin:$PATH"`
-  - Verify: `FreeCADCmd --version` (or `freecadcmd --version`)
+## Install FreeCAD
 
-- Windows 10/11
-  - Download/Install: https://www.freecad.org (includes `FreeCADCmd.exe`).
-  - Verify: open Command Prompt and run:
-    - `"C:\\Program Files\\FreeCAD 1.0\\bin\\FreeCADCmd.exe" --version` (or `0.21` path)
-  - If not in PATH, the provided `Step2Stl.bat` will try common install paths.
+**macOS:**
+```bash
+brew install --cask freecad
+```
 
-- Linux (Debian/Ubuntu)
-  - Install: `sudo apt-get update && sudo apt-get install -y freecad`
-  - Verify: `freecadcmd --version`
+**Windows:**
+Download installer from [freecad.org](https://www.freecad.org)
 
-Quick Start (Double‑Click)
-- macOS: double‑click `step2stl.command` in Finder
-  1) If asked, allow running (Right‑click → Open the first time)
-  2) Drop `.step/.stp` files into `STEP-INPUT/`
-  3) Double‑click `step2stl.command` again to convert
-  4) Find `.stl` in `STL-OUTPUT/` and your original STEP in `STEP-INPUT/_processed/`
+**Linux:**
+```bash
+sudo apt-get install freecad
+```
 
-- Windows: double‑click `step2stl.bat` in File Explorer
-  1) If a console flashes and closes, open Command Prompt and run `step2stl.bat` to see messages
-  2) Drop `.step/.stp` files into `STEP-INPUT/`
-  3) Double‑click `step2stl.bat` again to convert
-  4) Find `.stl` in `STL-OUTPUT/` and your original STEP in `STEP-INPUT/_processed/`
+## Advanced Usage
 
-Command Line (Optional)
-- Single file:
-  - macOS/Linux: `FreeCADCmd -c "import sys,runpy; sys.argv=['$(pwd)/step2stl.py','$(pwd)/path/to/file.step']; runpy.run_path('$(pwd)/step2stl.py', run_name='__main__')"`
-  - Windows (PowerShell): `& 'C:\\Program Files\\FreeCAD 1.0\\bin\\FreeCADCmd.exe' -c "import sys,runpy; p='C:/path/to/step2stl.py'; f='C:/path/to/file.step'; sys.argv=[p,f]; runpy.run_path(p, run_name='__main__')"`
-- Whole folder:
-  - `FreeCADCmd -c "import sys,runpy; sys.argv=['$(pwd)/step2stl.py','$(pwd)/path/to/folder']; runpy.run_path('$(pwd)/step2stl.py', run_name='__main__')"`
+### Command Line
+Convert single file:
+```bash
+FreeCADCmd -c "import sys,runpy; sys.argv=['step2stl.py','file.step']; runpy.run_path('step2stl.py', run_name='__main__')"
+```
 
-Options
-- `-q/--quality`: `high` (default), `medium`, `low`, or `custom`
-- `--linear-deflection`, `--angular-deflection`, `--relative`: for `--quality custom`
-- `-o/--out`: custom output directory (CLI mode). In drop‑folder mode, outputs to `STL-OUTPUT/` by default.
-- `--binary`: output binary STL instead of ASCII (smaller files, faster write)
-- Orientation/rotation:
-  - `--source-up {x|y|z}` and `--target-up {x|y|z}` (defaults set in config: `y` → `z`)
-  - `--rotate-x DEG`, `--rotate-y DEG`, `--rotate-z DEG` (applied after up‑mapping)
+Convert folder:
+```bash
+FreeCADCmd -c "import sys,runpy; sys.argv=['step2stl.py','/path/to/folder']; runpy.run_path('step2stl.py', run_name='__main__')"
+```
 
-Defaults for double‑click mode
-- A `step2stl.config.json` is already included with sensible defaults:
-  {
-    "quality": "high",
-    "source_up": "y",
-    "target_up": "z",
-    "rotate_x": 0,
-    "rotate_y": 0,
-    "rotate_z": 0
-  }
-  Change those values if your CAD uses a different up‑axis.
+### Options
+- `-q/--quality`: `high` (default), `medium`, `low`, `custom`
+- `--binary`: Output binary STL (smaller files)
+- `-o/--out`: Custom output directory
+- `--source-up {x|y|z}` / `--target-up {x|y|z}`: Orientation control
 
-Notes and tips
-- FreeCAD version compatibility: tested with 0.21.x; also works with 1.0.x. If a file crashes Import, the script first tries a direct Shape read, then a document import.
-- STL format: ASCII by default for broad compatibility; use `--binary` for smaller files.
-- If you see the FreeCAD banner only and nothing happens when using `FreeCADCmd <script> <args>`, switch to the `-c` invocation shown above; it guarantees the script runs as `__main__`.
+### Configuration
+Edit `step2stl.config.json` to change defaults for drop-folder mode:
+```json
+{
+  "quality": "high",
+  "source_up": "y",
+  "target_up": "z",
+  "binary": false
+}
+```
 
-Troubleshooting
-- macOS “App can’t be opened”: Right‑click `step2stl.command` → Open once. Or open the FreeCAD app once to approve it.
-- Windows console flashes and closes: open Command Prompt, `cd` to this folder, and run `step2stl.bat` to read any messages.
-- “FreeCADCmd not found”: make sure FreeCAD is installed (see above), or edit PATH as noted for your OS.
+## Troubleshooting
 
-Troubleshooting
-- “FreeCADCmd not found”: ensure FreeCAD is installed and CLI is in PATH (see Install FreeCAD).
-- macOS double‑click does nothing: Right‑click → Open the first time to bypass Gatekeeper. Or run the `.command` from Terminal to see output.
-- Windows double‑click flashes and closes: Open `cmd.exe`, run `step2stl.bat`, and check any error messages (path to `FreeCADCmd.exe`, permissions, etc.).
+**macOS "App can't be opened":** Right-click → Open the first time to bypass security
+
+**Windows console flashes:** Open Command Prompt and run `step2stl.bat` to see error messages
+
+**"FreeCADCmd not found":** Make sure FreeCAD is installed and in your PATH
+
+**No output:** Check that STEP files are in `STEP-INPUT/` and not already in `_processed/`
