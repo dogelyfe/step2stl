@@ -1,6 +1,16 @@
-step2stl — Drop-Folder STEP→STL Converter (FreeCAD)
+# step2stl — Drop-Folder STEP→STL Converter (FreeCAD)
 
-What It Does (Simple)
+![License](https://img.shields.io/badge/license-MIT-blue.svg) ![Python](https://img.shields.io/badge/python-3.6+-blue.svg) ![FreeCAD](https://img.shields.io/badge/FreeCAD-0.21%2B-orange.svg)
+
+Simple drag-and-drop STEP to STL converter with good defaults. No GUI required.
+
+## Installation
+
+1. **Install FreeCAD** (see platform-specific instructions below)
+2. **Download this project** or `git clone https://github.com/dogelyfe/step2stl.git`
+3. **Ready to use** - double-click the wrapper or run from command line
+
+## What It Does (Simple)
 - Converts `.step/.stp` to `.stl` with good defaults.
 - Double‑click to run. Drop STEP files into `STEP-INPUT/`. Results land in `STL-OUTPUT/`.
 - Moves processed STEP files into `STEP-INPUT/_processed/` so re‑runs skip them.
@@ -64,6 +74,7 @@ Options
 - `-q/--quality`: `high` (default), `medium`, `low`, or `custom`
 - `--linear-deflection`, `--angular-deflection`, `--relative`: for `--quality custom`
 - `-o/--out`: custom output directory (CLI mode). In drop‑folder mode, outputs to `STL-OUTPUT/` by default.
+- `--binary`: output binary STL instead of ASCII (smaller files, faster write)
 - Orientation/rotation:
   - `--source-up {x|y|z}` and `--target-up {x|y|z}` (defaults set in config: `y` → `z`)
   - `--rotate-x DEG`, `--rotate-y DEG`, `--rotate-z DEG` (applied after up‑mapping)
@@ -82,7 +93,7 @@ Defaults for double‑click mode
 
 Notes and tips
 - FreeCAD version compatibility: tested with 0.21.x; also works with 1.0.x. If a file crashes Import, the script first tries a direct Shape read, then a document import.
-- STL format: ASCII for broad compatibility; if you prefer binary STLs, mention it and we can add a `--binary` switch.
+- STL format: ASCII by default for broad compatibility; use `--binary` for smaller files.
 - If you see the FreeCAD banner only and nothing happens when using `FreeCADCmd <script> <args>`, switch to the `-c` invocation shown above; it guarantees the script runs as `__main__`.
 
 Troubleshooting

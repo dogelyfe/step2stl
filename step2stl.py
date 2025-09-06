@@ -76,6 +76,12 @@ def parse_args(argv: Iterable[str]) -> argparse.Namespace:
         default=None,
         help="Use relative linear deflection (True/False). Default varies by preset.",
     )
+    p.add_argument(
+        "--binary",
+        action="store_true",
+        default=False,
+        help="Output binary STL instead of ASCII (smaller files, faster write)",
+    )
     return p.parse_args(list(argv))
 
 
@@ -177,6 +183,7 @@ def convert_file(
     linear_deflection: float,
     angular_deflection: float,
     relative: bool,
+    binary: bool = False,
 ) -> Tuple[bool, str]:
     try:
         # Lazy imports so the script can show a clean error if FreeCAD is missing
@@ -200,7 +207,10 @@ def convert_file(
                 AngularDeflection=float(angular_deflection),
                 Relative=bool(relative),
             )
-            Mesh.write(mesh, str(out_path))
+            if binary:
+                mesh.write(str(out_path), "STL")
+            else:
+                Mesh.write(mesh, str(out_path))
             return True, f"OK: {src.name} -> {out_path}"
         except Exception:
             # Second attempt: document-based import (handles some multi-body edge cases)
@@ -235,7 +245,10 @@ def convert_file(
                 if part_count == 0:
                     return False, f"ERROR: No meshable shapes found in {src}"
 
-                Mesh.write(combined, str(out_path))
+                if binary:
+                    combined.write(str(out_path), "STL")
+                else:
+                    Mesh.write(combined, str(out_path))
                 return True, f"OK: {src.name} -> {out_path} ({part_count} parts)"
             finally:
                 try:
@@ -288,6 +301,7 @@ def main(argv: Iterable[str]) -> int:
             rotate_x=float(cfg.get("rotate_x", getattr(ns, "rotate_x", 0.0) or 0.0)),
             rotate_y=float(cfg.get("rotate_y", getattr(ns, "rotate_y", 0.0) or 0.0)),
             rotate_z=float(cfg.get("rotate_z", getattr(ns, "rotate_z", 0.0) or 0.0)),
+            binary=cfg.get("binary", getattr(ns, "binary", False)),
         )
 
     # Resolve absolute paths to avoid CWD issues with FreeCADCmd
@@ -357,7 +371,10 @@ def main(argv: Iterable[str]) -> int:
                 AngularDeflection=float(angular),
                 Relative=bool(relative),
             )
-            Mesh.write(mesh, str(out_path))
+            if getattr(ns, "binary", False):
+                mesh.write(str(out_path), "STL")
+            else:
+                Mesh.write(mesh, str(out_path))
             success = True
             msg = f"OK: {src.name} -> {out_path}"
         except Exception:
@@ -368,6 +385,7 @@ def main(argv: Iterable[str]) -> int:
                 linear_deflection=linear,
                 angular_deflection=angular,
                 relative=relative,
+                binary=getattr(ns, "binary", False),
             )
         print(msg)
         if success:
